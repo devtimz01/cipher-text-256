@@ -39,30 +39,6 @@ export class AuthModel extends Model {
   declare isEmailVerified: boolean;
 
   @Column({
-    type: DataType.ENUM('male', 'female'),
-    allowNull: false,
-  })
-  declare gender: 'male' | 'female';
-
-  @Column({
-    type: DataType.INTEGER,
-    allowNull: false,
-  })
-  declare age: number;
-
-  @Column({
-    type: DataType.DECIMAL(5, 2),
-    allowNull: true,
-  })
-  declare weight: number;
-
-  @Column({
-    type: DataType.SMALLINT,
-    allowNull: true,
-  })
-  declare height_cm: number;
-
-  @Column({
     type: DataType.DATE,
     defaultValue: DataType.NOW,
     allowNull: false,
@@ -75,4 +51,20 @@ export class AuthModel extends Model {
     allowNull: false,
   })
   declare updatedAt: Date;
+  @Column({
+    allowNull: false,
+    type:DataType.TEXT('long')
+
+  })
+  declare Identity_PreKey: string
+  @Column({
+    allowNull: false,
+    type:DataType.TEXT('long')
+  })
+  declare Signed_PreKey: string
+  @Column({
+    type:DataType.JSON,
+    allowNull: false
+  })
+  declare Onetime_PreKeys: string[]
 }

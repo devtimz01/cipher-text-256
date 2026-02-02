@@ -6,10 +6,6 @@ export interface Auth{
     email: string;
     isEmailVerified:boolean
     password: string;
-    gender: 'male'|'female',
-    age: number,
-    weight: number;
-    height_cm:number;
     createdAt: Date;
     updatedAt: Date
 };

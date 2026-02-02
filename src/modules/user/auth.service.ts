@@ -22,12 +22,18 @@ export class AuthService {
         const hashedPassword= await argon2.hash(signupDto.password)
         if(!hashedPassword){
             throw new InternalServerErrorException('password not hashed')}
-        const newUser = await this.authmodel.create({...signupDto,password:hashedPassword,})
+        const newUser = await this.authmodel.create({...signupDto,
+            password:hashedPassword,
+            //unit8Array format for my X25519 key pairs, so i stored as a Base64 string in my Db,stored as unit8Array in memory.
+            Identity_PreKey:'',    
+            Signed_PreKey:'',
+            Onetime_PreKeys:''
+        })
         Logger.info('new user created!')
         return plainToInstance(SignupResponseDto, newUser.get({ plain: true }))
     };
     async login(loginDto:LoginDto):Promise<LoginResponseDto>{
-        const validUser = await this.authmodel.findOne({where:{username:loginDto.username}})
+        const validUser = await this.authmodel.findOne({where:{username:loginDto.username},attributes:{exclude:['password']}})
         if(!validUser){
             throw new NotFoundException('user does not exists,signup!')
         }

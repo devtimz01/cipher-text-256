@@ -22,34 +22,6 @@ export class SignupDto{
   @MaxLength(100)
   password: string;
   
-  @IsNotEmpty()
-  @IsEnum(['male', 'female'], { message: 'Gender must be either male or female' })
-  @Trim()
-  gender: 'male' | 'female';
-  
-  @IsNotEmpty()
-  @IsNumber()
-  @Trim()
-  @Type(()=>Number)
-  @Min(13)
-  @Max(120)
-  age: number;
-  
-  @IsNotEmpty()
-  @IsNumber()
-  @Trim()
-  @Type(()=>Number)
-  @Min(30)
-  @Max(300)
-  weight: number; // in kg
-  
-  @IsNotEmpty()
-  @IsNumber()
-  @Trim()
-  @Type(()=>Number)
-  @Min(100)
-  @Max(250)
-  height_cm: number;
 };
 
 export class LoginDto{
@@ -76,14 +48,6 @@ export class SignupResponseDto {
   email: string;
   @Expose()
   isEmailVerified: boolean;
-  @Expose()
-  gender: 'male' | 'female';
-  @Expose()
-  age: number;
-  @Expose()
-  weight: number;
-  @Expose()
-  height_cm: number;
   @Expose()
   createdAt: Date;
   @Expose()
