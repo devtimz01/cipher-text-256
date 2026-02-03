@@ -21,7 +21,27 @@ export class SignupDto{
   @MinLength(8)
   @MaxLength(100)
   password: string;
+
+  @IsNotEmpty()
+  @IsString()
+  @Trim()
+  identityPreKey: string;
   
+  @IsNotEmpty()
+  @IsString()
+  @Trim()
+  signedPreKey: string;
+
+  @IsNotEmpty()
+  @IsString()
+  @Trim()
+  oneTimePreKeys: string;
+  
+  @IsNotEmpty()
+  @IsString()
+  @Trim()
+  signedPreKeySignature: string;
+
 };
 
 export class LoginDto{

@@ -4,7 +4,11 @@ export interface Auth{
     id: string;
     username: string;
     email: string;
-    isEmailVerified:boolean
+    isEmailVerified:boolean,
+    identityPreKey: string,
+    signedPreKey: string,
+    oneTimePreKeys: string[],
+    signedPreKeySignature: string,
     password: string;
     createdAt: Date;
     updatedAt: Date

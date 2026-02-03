@@ -25,9 +25,10 @@ export class AuthService {
         const newUser = await this.authmodel.create({...signupDto,
             password:hashedPassword,
             //unit8Array format for my X25519 key pairs, so i stored as a Base64 string in my Db,stored as unit8Array in memory.
-            Identity_PreKey:'',    
-            Signed_PreKey:'',
-            Onetime_PreKeys:''
+            Identity_PreKey:signupDto.identityPreKey,    
+            Signed_PreKey:signupDto.signedPreKey,
+            Onetime_PreKeys:signupDto.oneTimePreKeys,
+            Signed_PreKey_Signature: signupDto.signedPreKeySignature
         })
         Logger.info('new user created!')
         return plainToInstance(SignupResponseDto, newUser.get({ plain: true }))

@@ -52,7 +52,7 @@ export class AuthModel extends Model {
   })
   declare updatedAt: Date;
   @Column({
-    allowNull: false,
+    allowNull: true,
     type:DataType.TEXT('long')
 
   })
@@ -64,7 +64,12 @@ export class AuthModel extends Model {
   declare Signed_PreKey: string
   @Column({
     type:DataType.JSON,
-    allowNull: false
+    allowNull: false,
   })
   declare Onetime_PreKeys: string[]
+  @Column({
+    type:DataType.TEXT('long'),
+    allowNull: false
+  })
+  declare Signed_PreKey_Signature: string
 }
