@@ -1,5 +1,5 @@
 import { Exclude,Expose, Transform, Type } from 'class-transformer'
-import { IsNotEmpty, IsString, MinLength,MaxLength,IsEmail,IsEnum,IsNumber,Min,Max, Matches} from 'class-validator'
+import { IsNotEmpty,IsArray, IsString, MinLength,MaxLength,IsEmail,IsEnum,IsNumber,Min,Max, Matches, IsOptional} from 'class-validator'
 import { Trim } from 'src/common/decorators/trim';
 
 export class SignupDto{
@@ -10,8 +10,8 @@ export class SignupDto{
   @Trim()
   username: string;
   
-  @IsNotEmpty()
   @IsEmail()
+  @IsOptional()
   @Trim()
   email: string;
   
@@ -33,7 +33,8 @@ export class SignupDto{
   signedPreKey: string;
 
   @IsNotEmpty()
-  @IsString()
+  @IsArray()
+  @IsString({ each: true })
   @Trim()
   oneTimePreKeys: string;
   

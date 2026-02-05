@@ -30,7 +30,7 @@ export class AuthService {
             Onetime_PreKeys:signupDto.oneTimePreKeys,
             Signed_PreKey_Signature: signupDto.signedPreKeySignature
         })
-        Logger.info('new user created!')
+        //Logger.info('new user created!')
         return plainToInstance(SignupResponseDto, newUser.get({ plain: true }))
     };
     async login(loginDto:LoginDto):Promise<LoginResponseDto>{

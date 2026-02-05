@@ -1,4 +1,4 @@
-import { Model, Table, Column, DataType } from "sequelize-typescript";
+import { Model, Table, Column, DataType, HasMany } from "sequelize-typescript";
 
 @Table({
   tableName: 'Auth',
@@ -72,4 +72,5 @@ export class AuthModel extends Model {
     allowNull: false
   })
   declare Signed_PreKey_Signature: string
-}
+
+};
