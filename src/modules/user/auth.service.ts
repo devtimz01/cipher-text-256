@@ -34,7 +34,7 @@ export class AuthService {
         return plainToInstance(SignupResponseDto, newUser.get({ plain: true }))
     };
     async login(loginDto:LoginDto):Promise<LoginResponseDto>{
-        const validUser = await this.authmodel.findOne({where:{username:loginDto.username},attributes:{exclude:['password']}})
+        const validUser = await this.authmodel.findOne({where:{username:loginDto.username}})
         if(!validUser){
             throw new NotFoundException('user does not exists,signup!')
         }

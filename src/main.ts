@@ -5,6 +5,11 @@ import { LoggerInstance } from './utils/logs';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+   app.enableCors({origin:'http://localhost:5173',credentials:true,allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
+    methods: ['GET', 'POST', 'OPTIONS', 'PUT', 'DELETE', 'PATCH'],
+    preflightContinue: false,
+    optionsSuccessStatus: 204,})
+    
    app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,           
@@ -14,10 +19,7 @@ async function bootstrap() {
     })
   );
   await app.listen(3000);
-   app.enableCors({origin:'http://localhost:5173',credentials:true,allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
-    methods: ['GET', 'POST', 'OPTIONS', 'PUT', 'DELETE', 'PATCH'],
-    preflightContinue: false,
-    optionsSuccessStatus: 204,})
+
   //Logger.info('app starting...')
 }
 

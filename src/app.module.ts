@@ -5,6 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from './config/Db/init';
 import { AuthModule } from './modules/user/auth.module';
 import { GuardModule } from './common/guards/guards-module';
+import { TextModule } from './modules/Text-hybrid-encrypt/text.module';
 
 @Module({
   imports: [
@@ -12,7 +13,7 @@ import { GuardModule } from './common/guards/guards-module';
       isGlobal: true,
       envFilePath: '.env',
       cache: true
-    }),DatabaseModule,AuthModule,GuardModule
+    }),DatabaseModule,AuthModule,GuardModule,TextModule
   ],
   controllers: [AppController],
   providers: [AppService],

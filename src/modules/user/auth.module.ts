@@ -16,7 +16,7 @@ import { AuthService } from './auth.service';
       inject:[ConfigService]
    })
 ],
-  controllers:[AuthController],
+   controllers:[AuthController],
    providers:[AuthService],
    exports:[SequelizeModule]
 })

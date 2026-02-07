@@ -2,7 +2,7 @@ import {createLogger,transports,format} from 'winston'
 export const LoggerInstance = createLogger({
     transports:[
         new transports.File({
-            filename: './logs/index.logs',
+            filename: './logs/error.logs',
             level: 'error'
         }),
         new transports.File({

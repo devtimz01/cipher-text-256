@@ -19,7 +19,7 @@ export class TextModel extends Model{
    @Column({
        allowNull: false,
        defaultValue: DataType.NOW,
-       type:DataType.STRING
+       type:DataType.DATE
     })
    declare createdAt: Date;
     @Column({

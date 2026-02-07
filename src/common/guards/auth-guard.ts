@@ -1,9 +1,9 @@
-import { CanActivate, ExecutionContext, Injectable, NotFoundException, UnauthorizedException } from "@nestjs/common";
+import { CanActivate, ExecutionContext, Injectable, NotFoundException, UnauthorizedException,Scope, BadRequestException } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import jwt from 'jsonwebtoken'
 import { Auth } from "src/modules/user/auth.interface";
 import { AuthModel } from "src/modules/user/auth-model";
-import { InjectModel } from "@nestjs/sequelize";
+import { InjectModel, } from "@nestjs/sequelize";
 
 @Injectable()
 export class JwtGuard implements CanActivate{
@@ -12,7 +12,7 @@ export class JwtGuard implements CanActivate{
         let request = context.switchToHttp().getRequest()
         let token:string;
         if(!request.headers.authorization && !request.headers.authorization.startsWith('Bearer')){
-
+            throw new BadRequestException()
         }
         token =request.headers.authorization.split(' ')[1]
             if(!token){
