@@ -1,15 +1,16 @@
-import { Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
+import { Injectable, InternalServerErrorException, NotFoundException,Req,Inject } from "@nestjs/common";
 import { InjectModel } from "@nestjs/sequelize";
 import { TextModel } from "./text.model";
 import { TextDto, TextResponseDto } from "./text.dto";
 import { plainToInstance } from "class-transformer";
 import { AuthModel } from "../user/auth-model";
 import { ChatGateway } from "./websocket";
+import { LoggerInstance } from "src/utils/logs";
 
 @Injectable()
 export class TextService{
 
-constructor(@InjectModel(ChatGateway)private chatGateway:ChatGateway ,@InjectModel(TextModel) private textModel:typeof TextModel, @InjectModel(AuthModel) private authModel:typeof AuthModel){}
+constructor(@Inject('LOGGER')private logger:typeof LoggerInstance,@InjectModel(ChatGateway)private chatGateway:ChatGateway ,@InjectModel(TextModel) private textModel:typeof TextModel, @InjectModel(AuthModel) private authModel:typeof AuthModel){}
 async createText(textDto:TextDto):Promise<TextResponseDto>{
         try{const text = await this.textModel.create({
             secretText: textDto.secretText
@@ -19,13 +20,12 @@ async createText(textDto:TextDto):Promise<TextResponseDto>{
         }
         return plainToInstance(TextResponseDto, text.get({plain:true}))}
         catch(err){
-            //Logger.error(err)
-            console.log(err)
+            this.logger.error(err)
             throw new InternalServerErrorException()
         }
     };
 
-   async shareText(textId:string,recipientName:string){
+   async shareText(textId:string,recipientName:string,senderId: string ){
     try{
         const text= await this.textModel.findOne({where:{id:textId}})
         if(!text){
@@ -41,11 +41,11 @@ async createText(textDto:TextDto):Promise<TextResponseDto>{
         }
         this.chatGateway.server.to(targetSocketId).emit('share-text',{
             message:text.secretText as string,
-            from: request.user as string
+            from: senderId as string
         })
     }
     catch(err){
-        //Logger.error(err)
+        this.logger.error(err)
         throw new InternalServerErrorException(err)}
     }
 };

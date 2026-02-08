@@ -1,13 +1,14 @@
-import { CanActivate, ExecutionContext, Injectable, NotFoundException, UnauthorizedException,Scope, BadRequestException } from "@nestjs/common";
+import { CanActivate, ExecutionContext, Injectable, NotFoundException, UnauthorizedException,Scope, BadRequestException,Inject } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import jwt from 'jsonwebtoken'
 import { Auth } from "src/modules/user/auth.interface";
 import { AuthModel } from "src/modules/user/auth-model";
 import { InjectModel, } from "@nestjs/sequelize";
+import { LoggerInstance } from "src/utils/logs";
 
 @Injectable()
 export class JwtGuard implements CanActivate{
-    constructor(private configService: ConfigService, @InjectModel(AuthModel) private authModel:typeof AuthModel){}
+    constructor(@Inject('LOGGER')private logger:typeof LoggerInstance,  private configService: ConfigService, @InjectModel(AuthModel) private authModel:typeof AuthModel){}
     async canActivate(context: ExecutionContext):Promise<boolean> {
         let request = context.switchToHttp().getRequest()
         let token:string;
@@ -29,7 +30,7 @@ export class JwtGuard implements CanActivate{
            return true;
     }
         catch(error){
-             Logger.error(error)
+             this.logger.error(error)
             throw new UnauthorizedException("invalid or expired token")
         }
     }

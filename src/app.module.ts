@@ -6,6 +6,7 @@ import { DatabaseModule } from './config/Db/init';
 import { AuthModule } from './modules/user/auth.module';
 import { GuardModule } from './common/guards/guards-module';
 import { TextModule } from './modules/Text-hybrid-encrypt/text.module';
+import { LogModule } from './utils/log.module';
 
 @Module({
   imports: [
@@ -13,7 +14,7 @@ import { TextModule } from './modules/Text-hybrid-encrypt/text.module';
       isGlobal: true,
       envFilePath: '.env',
       cache: true
-    }),DatabaseModule,AuthModule,GuardModule,TextModule
+    }),DatabaseModule,AuthModule,GuardModule,TextModule,LogModule
   ],
   controllers: [AppController],
   providers: [AppService],

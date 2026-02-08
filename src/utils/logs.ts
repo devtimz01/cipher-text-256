@@ -14,8 +14,3 @@ export const LoggerInstance = createLogger({
     format: format.combine(format.timestamp({format: 'YYYY-DD-MM, HH:mm:ss'}), format.printf((info)=>
             `${info.timestamp} ${info.level}:${info.message}`))
 });
-
-declare global {
-  var Logger: typeof LoggerInstance;
-}
-global.Logger =LoggerInstance

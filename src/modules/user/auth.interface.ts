@@ -14,4 +14,10 @@ export interface Auth{
     updatedAt: Date
 };
 
+export interface AuthenticatedRequest extends Request {
+  user: {
+    id: string;
+    username: string;
+  };
+}
 export interface Authcreationbody extends Optional<Auth,'id'|'createdAt'|'updatedAt'>{}
