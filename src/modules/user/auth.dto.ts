@@ -59,6 +59,24 @@ export class LoginDto{
 
 
 }
+export class keyPairQueryDto{
+  @IsNotEmpty()
+  @IsString()
+  @Trim()
+  username:string
+  @IsNotEmpty()
+  @IsString()
+  @Trim()
+  Identity_Key:string
+  @IsNotEmpty()
+  @IsString()
+  @Trim()
+  Signed_PreyKey:string
+  @IsNotEmpty()
+  @IsString()
+  @Trim()
+  OneTime_PreyKeys:string[]
+}
 
 export class SignupResponseDto {
   @Expose()
@@ -91,4 +109,18 @@ export class LoginResponseDto{
     refreshToken:string;
     
 }
+
+export class keyPairsResponstDto{
+  @Expose()
+  Identity_Key: string
+  @Expose()
+  Signed_PreKey: string
+  @Expose()
+  OneTime_PreKeys: string
+  @Expose()
+  Signed_PreKey_Signature: string[]
+
+}
+
+
 

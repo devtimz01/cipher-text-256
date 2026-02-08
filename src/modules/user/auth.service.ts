@@ -3,7 +3,7 @@ import { AuthModel } from './auth-model';
 import * as argon2 from 'argon2'
 import {   JwtService } from '@nestjs/jwt';
 import {  ConfigService } from '@nestjs/config';
-import { LoginDto, LoginResponseDto, SignupDto, SignupResponseDto } from './auth.dto';
+import { keyPairQueryDto, LoginDto, LoginResponseDto, SignupDto, SignupResponseDto } from './auth.dto';
 import { InjectModel } from '@nestjs/sequelize';
 import { plainToInstance } from 'class-transformer';
 
@@ -50,5 +50,17 @@ export class AuthService {
         },{secret: this.configService.get<string>('jwt_secret'),expiresIn: '7d'})
         const responseData ={user:validUser.get({plain:true}),accessToken,refreshToken}
          return plainToInstance(LoginResponseDto, responseData)
+    }
+
+    async getuserBKeyPairs(keypairDto:keyPairQueryDto){
+        try{
+            await this.authmodel.findOne({
+                where:{username: keypairDto.username},
+                attributes:['Identity_Key','Onetime_Prekeys','Signed_Prekey','Signed_Prekey_Signature']
+            })
+        }
+        catch(err){
+            throw new InternalServerErrorException(err)
+        }
     }
 };

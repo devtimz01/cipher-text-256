@@ -7,6 +7,7 @@ import { JwtGuard } from "src/common/guards/auth-guard";
 export class TextController{
 
 constructor(private textService: TextService){}
+
 @Post('/createText')
 @UseInterceptors(ClassSerializerInterceptor)
 @UseGuards(JwtGuard)
@@ -14,4 +15,10 @@ constructor(private textService: TextService){}
 createText(@Body() textDto:TextDto){
     return this.textService.createText(textDto)}
 
+@Post('/shareText')
+@UseInterceptors(ClassSerializerInterceptor)
+@UseGuards(JwtGuard)
+@HttpCode(201)
+shareText(@Body() textId:string,user:string){
+    return this.textService.shareText(textId,user)}
 }
