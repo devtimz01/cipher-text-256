@@ -10,7 +10,7 @@ import { LoggerInstance } from "src/utils/logs";
 @Injectable()
 export class TextService{
 
-constructor(@Inject('LOGGER')private logger:typeof LoggerInstance,@InjectModel(ChatGateway)private chatGateway:ChatGateway ,@InjectModel(TextModel) private textModel:typeof TextModel, @InjectModel(AuthModel) private authModel:typeof AuthModel){}
+constructor(@Inject('LOGGER')private logger:typeof LoggerInstance,private chatGateway:ChatGateway ,@InjectModel(TextModel) private textModel:typeof TextModel, @InjectModel(AuthModel) private authModel:typeof AuthModel){}
 async createText(textDto:TextDto):Promise<TextResponseDto>{
         try{const text = await this.textModel.create({
             secretText: textDto.secretText

@@ -1,14 +1,13 @@
-import { Inject, Injectable, NotFoundException } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { WebSocketGateway, WebSocketServer } from "@nestjs/websockets";
 import { Server, Socket } from "socket.io";
-import { AuthModel } from "../user/auth-model";
 
 @Injectable()
 @WebSocketGateway({cors:true})
 export class ChatGateway{
 @WebSocketServer()
 server:Server
-constructor(@Inject(AuthModel) private authModel:typeof AuthModel){}
+constructor(){}
 public socketUsers = new Map<String,String>()
 
 async handleConnection(io:Socket){

@@ -3,7 +3,7 @@ import { AuthModel } from './auth-model';
 import * as argon2 from 'argon2'
 import {   JwtService } from '@nestjs/jwt';
 import {  ConfigService } from '@nestjs/config';
-import { keyPairQueryDto, LoginDto, LoginResponseDto, SignupDto, SignupResponseDto } from './auth.dto';
+import { keyPairQueryDto, keyPairsResponsetDto, LoginDto, LoginResponseDto, SignupDto, SignupResponseDto } from './auth.dto';
 import { InjectModel } from '@nestjs/sequelize';
 import { plainToInstance } from 'class-transformer';
 
@@ -52,12 +52,16 @@ export class AuthService {
          return plainToInstance(LoginResponseDto, responseData)
     }
 
-    async getuserBKeyPairs(keypairDto:keyPairQueryDto){
+    async getuserBKeyPairs(keypairDto:keyPairQueryDto):Promise<keyPairsResponsetDto| null>{
         try{
-            await this.authmodel.findOne({
+          const keyPairs=  await this.authmodel.findOne({
                 where:{username: keypairDto.username},
-                attributes:['Identity_Key','Onetime_Prekeys','Signed_Prekey','Signed_Prekey_Signature']
+                attributes:['Identity_PreKey','Onetime_Prekeys','Signed_Prekey','Signed_Prekey_Signature']
             })
+            if(!keyPairs){
+                throw new NotFoundException('key paris not found')
+            }
+            return plainToInstance(keyPairsResponsetDto,keyPairs.get({plain:true}))
         }
         catch(err){
             throw new InternalServerErrorException(err)

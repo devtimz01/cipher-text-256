@@ -64,18 +64,7 @@ export class keyPairQueryDto{
   @IsString()
   @Trim()
   username:string
-  @IsNotEmpty()
-  @IsString()
-  @Trim()
-  Identity_Key:string
-  @IsNotEmpty()
-  @IsString()
-  @Trim()
-  Signed_PreyKey:string
-  @IsNotEmpty()
-  @IsString()
-  @Trim()
-  OneTime_PreyKeys:string[]
+
 }
 
 export class SignupResponseDto {
@@ -110,7 +99,7 @@ export class LoginResponseDto{
     
 }
 
-export class keyPairsResponstDto{
+export class keyPairsResponsetDto{
   @Expose()
   Identity_Key: string
   @Expose()

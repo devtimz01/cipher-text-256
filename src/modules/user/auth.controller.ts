@@ -1,7 +1,7 @@
-import { Body, ClassSerializerInterceptor, Controller, HttpCode,Post, UseGuards, UseInterceptors } from '@nestjs/common';
-import { Options, Header } from '@nestjs/common/decorators/http';
+import { Body, ClassSerializerInterceptor, Controller, HttpCode,Post, UseGuards,Get, UseInterceptors } from '@nestjs/common';
+import { Options, Header, Param, Query } from '@nestjs/common/decorators/http';
 import { AuthService } from './auth.service';
-import {  LoginDto, SignupDto } from './auth.dto';
+import {  keyPairQueryDto, LoginDto, SignupDto } from './auth.dto';
 import { JwtGuard } from 'src/common/guards/auth-guard';
 
 @Controller('auth')
@@ -22,4 +22,12 @@ constructor(private authService: AuthService){}
     loginUser(@Body() loginDto: LoginDto){
         return this.authService.login(loginDto)
     }
+@Get('getkeypairs')
+@UseInterceptors(ClassSerializerInterceptor)
+@UseGuards(JwtGuard)
+@HttpCode(201)
+    getKeyPairs(@Query() query: keyPairQueryDto){
+        return this.authService.getuserBKeyPairs(query)
+    }
 }
+
