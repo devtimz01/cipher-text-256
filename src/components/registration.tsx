@@ -29,7 +29,7 @@ const register=async(e: React.FormEvent)=>{
       oneTimePreKeys: oneTimeKeys.map(k => sodium.to_base64(k.publicKey))
     };
     
-    console.log('Sending payload:', payload); // Add this!
+    console.log('Sending payload:', payload);
     
     const res = await axios.post('http://localhost:3000/auth/signup', payload, {
       headers: {
