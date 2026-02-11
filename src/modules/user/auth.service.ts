@@ -52,19 +52,30 @@ export class AuthService {
          return plainToInstance(LoginResponseDto, responseData)
     }
 
-    async getuserBKeyPairs(keypairDto:keyPairQueryDto):Promise<keyPairsResponsetDto| null>{
+    async getuserBKeyPairs(reciever:keyPairQueryDto,sender:string): Promise<{ receiver: keyPairsResponsetDto, sender: keyPairsResponsetDto } | null> {
         try{
-          const keyPairs=  await this.authmodel.findOne({
-                where:{username: keypairDto.username},
+          const recieverkeyPairs=  await this.authmodel.findOne({
+                where:{username: reciever.username},
                 attributes:['Identity_PreKey','Onetime_Prekeys','Signed_Prekey','Signed_Prekey_Signature']
             })
-            if(!keyPairs){
-                throw new NotFoundException('key paris not found')
+            if(!recieverkeyPairs){
+                throw new NotFoundException('userA pairs not found')
             }
-            return plainToInstance(keyPairsResponsetDto,keyPairs.get({plain:true}))
+         const senderkeyPairs=  await this.authmodel.findOne({
+                where:{username: sender},
+                attributes:['Identity_PreKey','Onetime_Prekeys','Signed_Prekey','Signed_Prekey_Signature']
+            })
+            if(!senderkeyPairs){
+                throw new NotFoundException('user B key pairs not found')
+            }
+           return {
+              receiver: plainToInstance(keyPairsResponsetDto, recieverkeyPairs.get({plain:true})),
+              sender: plainToInstance(keyPairsResponsetDto, senderkeyPairs.get({ plain: true }))
+    };
         }
         catch(err){
             throw new InternalServerErrorException(err)
         }
     }
+
 };
