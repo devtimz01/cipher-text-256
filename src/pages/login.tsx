@@ -25,9 +25,9 @@ const signIn=async(e: React.FormEvent)=>{
     if (!res.data?.accessToken) {
       throw new Error('No accessToken in response');
     }
-    const {accessToken}= res.data
-    setToken(accessToken)
-    console.log('accessToken:', accessToken)
+    const {accessToken,user}= res.data
+    setToken(accessToken,user.id)
+    console.log('accessToken:', accessToken,user.id)
     navigate('/ciphertext');
     }
     catch(err){
