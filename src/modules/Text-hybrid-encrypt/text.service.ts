@@ -1,6 +1,6 @@
 import { Injectable, InternalServerErrorException, NotFoundException,Req,Inject } from "@nestjs/common";
 import { InjectModel } from "@nestjs/sequelize";
-import { TextModel } from "./text.model";
+import { TextchatModel, TextModel } from "./text.model";
 import { TextDto, TextResponseDto } from "./text.dto";
 import { plainToInstance } from "class-transformer";
 import { AuthModel } from "../user/auth-model";
@@ -10,7 +10,10 @@ import { LoggerInstance } from "src/utils/logs";
 @Injectable()
 export class TextService{
 
-constructor(@Inject('LOGGER')private logger:typeof LoggerInstance,private chatGateway:ChatGateway ,@InjectModel(TextModel) private textModel:typeof TextModel, @InjectModel(AuthModel) private authModel:typeof AuthModel){}
+constructor(@Inject('LOGGER')private logger:typeof LoggerInstance,private chatGateway:ChatGateway ,
+@InjectModel(TextchatModel) private chatModel:typeof TextchatModel,
+@InjectModel(TextModel) private textModel:typeof TextModel, @InjectModel(AuthModel) private authModel:typeof AuthModel){}
+
 async createText(textDto:TextDto):Promise<TextResponseDto>{
         try{const text = await this.textModel.create({
             secretText: textDto.secretText
@@ -39,7 +42,16 @@ async createText(textDto:TextDto):Promise<TextResponseDto>{
         if(!targetSocketId){
             throw new InternalServerErrorException('user not connected')
         }
-        this.chatGateway.server.to(targetSocketId).emit('share-text',{
+        const createChat = await this.chatModel.create({
+            secretText:text.secretText,
+            sender:senderId,
+            receiver:targetSocketId
+        })
+        if(!createChat){
+            this.logger.error('failed to create chat')
+            throw new InternalServerErrorException()
+        }
+        this.chatGateway.server.to(targetSocketId).emit('text-notifs',{
             message:text.secretText as string,
             from: senderId as string
         })

@@ -10,14 +10,14 @@ server:Server
 constructor(){}
 public socketUsers = new Map<String,String>()
 
-async handleConnection(io:Socket){
-const connectedusersId= io.handshake.auth.userId
+async handleConnection(client:Socket){
+const connectedusersId= client.handshake.auth.userId
 if(connectedusersId){
-    this.socketUsers.set(connectedusersId,io.id)}
+    this.socketUsers.set(connectedusersId,client.id)}
 }
 
-handleDisconnect(io:Socket){
-   const socketId= this.findUsersBysocketId(io.id)
+handleDisconnect(client:Socket){
+   const socketId= this.findUsersBysocketId(client.id)
    if(socketId){
    this.socketUsers.delete(socketId) }
 };

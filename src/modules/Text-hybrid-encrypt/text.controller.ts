@@ -19,6 +19,6 @@ createText(@Body() textDto:TextDto){
 @Post('/shareText')
 @UseGuards(JwtGuard)
 @HttpCode(200)
-shareText(@Body() data: { textId: string, username: string }, @Req() req:AuthenticatedRequest ){
-    return this.textService.shareText(data.textId,data.username,req.user.id)}
+shareText(@Body() data: { textId: string, recieverUsername: string }, @Req() req:AuthenticatedRequest ){
+    return this.textService.shareText(data.textId,data.recieverUsername,req.user.id)}
 }
