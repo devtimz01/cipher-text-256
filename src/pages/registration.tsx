@@ -9,7 +9,8 @@ const [email,setEmail] = useState('')
 
 const register=async(e: React.FormEvent)=>{
     e.preventDefault()
-   try{const identityKeyPair = sodium.crypto_sign_keypair();
+   try{
+    const identityKeyPair = sodium.crypto_sign_keypair();
     const signedPreKeyPair = sodium.crypto_kx_keypair();
     const signature = sodium.crypto_sign_detached(
       signedPreKeyPair.publicKey,
@@ -36,12 +37,21 @@ const register=async(e: React.FormEvent)=>{
         'Content-Type': 'application/json'
       }
     });
-    //so i stored private keys in localstorage
+    //so i stored private keys in my localstorage
     localStorage.setItem('identityPrivateKey', sodium.to_base64(identityKeyPair.privateKey));
     localStorage.setItem('signedPreKeyPrivate', sodium.to_base64(signedPreKeyPair.privateKey));
+    localStorage.setItem('signedPreKeySignature', sodium.to_base64(signature));
     localStorage.setItem('oneTimePrivateKeys', JSON.stringify(
       oneTimeKeys.map(k => sodium.to_base64(k.privateKey))
     ));
+   const identityPrivate = localStorage.getItem('identityPrivateKey');
+   const signedPreKeyPrivate = localStorage.getItem('signedPreKeyPrivate');
+   const signedPreKeySignature = localStorage.getItem('signedPreKeySignature');
+   const oneTimePrivateKeys = localStorage.getItem('oneTimePrivateKeys');
+
+  if (!identityPrivate || !signedPreKeyPrivate || !signedPreKeySignature || !oneTimePrivateKeys) {
+    throw new Error('Missing keys in localStorage');
+  }
     console.log('new user created',username, res.status)
 }
     catch(err){
