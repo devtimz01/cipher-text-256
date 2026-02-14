@@ -44,7 +44,7 @@ export class TextchatModel extends Model{
    declare id:string
     @Column({
        allowNull: false,
-       type:DataType.STRING
+       type:DataType.TEXT('long')
     })
    declare secretText:string
     @Column({

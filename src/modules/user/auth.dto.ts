@@ -60,7 +60,7 @@ export class LoginDto{
 
 }
 export class keyPairQueryDto{
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   @Trim()
   username:string
